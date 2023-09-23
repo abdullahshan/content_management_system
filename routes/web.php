@@ -26,21 +26,20 @@ Auth::routes();
 Route::get('/deshboard', [backendController::class, 'index'])->name('deshboard');
 
 
-
-/*Product Management*/
-
-Route::prefix('product')->name('product.')->group(function(){
-
-    Route::get('/add', [productController::class, 'add'])->name('add');
-});
-
 /*Category Management*/ 
 Route::prefix('category')->name('category.')->group(function(){
 
     Route::get('/add', [categoryController::class, 'add'])->name('add');
     Route::post('/store', [categoryController::class, 'store'])->name('store');
     Route::delete('/delete/{category:slug}', [categoryController::class, 'delete'])->name('delete');
+    Route::get('/edit/{category:slug}', [categoryController::class, 'edit'])->name('edit');
+    Route::put('/update/{category:slug}', [categoryController::class, 'update'])->name('update');
 
+});
 
+/*Product Management*/
+Route::prefix('product')->name('product.')->group(function(){
+
+    Route::get('/add', [productController::class, 'add'])->name('add');
 });
 

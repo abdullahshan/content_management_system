@@ -21,6 +21,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <title>Dashboard - Rubick - Bootstrap HTML Admin Template</title>
         <!-- BEGIN: CSS Assets-->
         <link rel="stylesheet" href="{{ asset('backend/dist/css/app.css') }}"/>
+        @stack('customcss')
         <!-- END: CSS Assets-->
     </head>
     <!-- END: Head -->
@@ -259,7 +260,13 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- BEGIN: JS Assets-->
         <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBG7gNHAhDzgYmq4-EHvM4bqW1DNj2UCuk&libraries=places"></script>
+      
         <script src="{{ asset('backend/dist/js/app.js') }}"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         <!-- END: JS Assets-->
+
+        @stack('customjs')
     </body>
 </html>

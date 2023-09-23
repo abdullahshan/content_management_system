@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 class categoryController extends Controller
 {
 
-    /*Category add*/
+/*Category add*/
     public function add(){
 
         $data = category::all();
@@ -19,7 +19,7 @@ class categoryController extends Controller
     }
 
 
-    /*Category Store*/
+/*Category Store*/
     public function store(Request $request){
 
         $request->validate([
@@ -41,12 +41,35 @@ class categoryController extends Controller
 }
 
 
-public function delete($slug){
+/*Category Delete*/
+    public function delete(category $category){
 
-        dd($slug);
+       $data = $category;
+       $data->delete();
+       return back();
 }
 
 
+/*Category Edit*/
+    public function edit(category $category){
+
+        $category = $category;
+        $data = category::all();
+
+        return view('backend.category.add',compact('category','data'));
+    }
+
+/*Category Update*/
+    public function update(Request $request, category $category){
+
+        $data = $category;
+        $data->title = $request->title;
+        $data->slug = $this->genarateslug($request->title, $request->slug);
+        $data->save();
+
+        return redirect()->route('category.add')->with("success","update successfully done!");
+
+    }
 
 private function genarateslug($title,$slug){
 

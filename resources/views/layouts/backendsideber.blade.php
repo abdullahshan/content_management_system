@@ -15,6 +15,25 @@
                         </a>
                     
                     </li>
+
+                    <li>
+                        <a href="javascript:;" class="side-menu {{ request()->routeIs('product.*') ? 'side-menu--active side-menu--open' : ' ' }}">
+                            <div class="side-menu__icon"> <i data-feather="home"></i> </div>
+                            <div class="side-menu__title">
+                                Category_Management 
+                                <div class="side-menu__sub-icon"> <i data-feather="chevron-down"></i> </div>
+                            </div>
+                        </a>
+                        <ul class="side-menu__sub-open">
+                            <li>
+                                <a href="{{ route('category.add') }}" class="side-menu {{ request()->routeIs('category.*') ? 'side-menu--active side-menu--open' : ' ' }}">
+                                    <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
+                                    <div class="side-menu__title">Add_Category</div>
+                                </a>
+                            </li>
+                          
+                        </ul>
+                    </li>
                    
                     <li>
                         <a href="javascript:;" class="side-menu {{ request()->routeIs('product.*') ? 'side-menu--active side-menu--open' : ' ' }}">
@@ -34,23 +53,6 @@
                           
                         </ul>
                     </li>
-                    <li>
-                        <a href="javascript:;" class="side-menu {{ request()->routeIs('product.*') ? 'side-menu--active side-menu--open' : ' ' }}">
-                            <div class="side-menu__icon"> <i data-feather="home"></i> </div>
-                            <div class="side-menu__title">
-                                Category_Management 
-                                <div class="side-menu__sub-icon"> <i data-feather="chevron-down"></i> </div>
-                            </div>
-                        </a>
-                        <ul class="side-menu__sub-open">
-                            <li>
-                                <a href="{{ route('category.add') }}" class="side-menu {{ request()->routeIs('category.*') ? 'side-menu--active side-menu--open' : ' ' }}">
-                                    <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
-                                    <div class="side-menu__title">Add_Category</div>
-                                </a>
-                            </li>
-                          
-                        </ul>
-                    </li>
+                   
                 </ul>
             </nav>

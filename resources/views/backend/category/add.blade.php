@@ -8,7 +8,6 @@
            
             @if (isset($category))
 
-
             <div class="card">
                
                 <div class="card-header"><h2>edit Category</h2></div>
@@ -20,7 +19,7 @@
                         @error('title')
                            <span style="color:red;"> {{ $message }}</span>
                         @enderror
-                        <input type="text" value="" name="slug" class="form-control mt-2 mb-2" >
+                        <input type="text" value="{{ $category->slug }}" name="slug" class="form-control mt-2 mb-2" >
                         <button name="submit" class="btn btn-primary">add-category</button>
                     </form>
                 </div>
@@ -34,6 +33,7 @@
                 <div class="card-body">
                     <form action="{{ route('category.store') }}" method="POST">
                         @csrf
+                        @method('post')
                        <label for="">Title</label>
                         <input type="text"  name="title" class="form-control mt-2">
                         @error('title')
@@ -66,7 +66,7 @@
                         <td>
                             <div class="btn-group">
 
-                                <a style="border-radius: 5px;" href="" class="btn btn-primary btn-sm">edit</a>
+                                <a style="border-radius: 5px;" href="{{ route('category.edit', $sdata) }}" class="btn btn-primary btn-sm">edit</a>
                               
                               
                                 <a style="border-radius: 5px;" href="#" class="btn btn-danger btn-sm deletebtn">delete</a>

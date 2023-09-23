@@ -66,8 +66,17 @@ class productController extends Controller
     }
 
 
-     //post insert image part//
+/*Delete Category*/ 
+    public function delete(product $product){
 
+        $data = $product;
+        $data->delete();
+
+        return redirect()->route('product.view');
+}
+
+
+//Upload image part//
      private function project_image($request){
 
         if($request->hasFile('image')){
@@ -79,15 +88,6 @@ class productController extends Controller
     
                 return $image;
          }
-    }
-
-/*Delete Category*/ 
-    public function delete(product $product){
-
-            $data = $product;
-            $data->delete();
-
-            return redirect()->route('product.view');
     }
 
 

@@ -21,7 +21,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <title>Dashboard - Rubick - Bootstrap HTML Admin Template</title>
         <!-- BEGIN: CSS Assets-->
         <link rel="stylesheet" href="{{ asset('backend/dist/css/app.css') }}"/>
-        @stack('customcss')
+        @stack('customjs')
         <!-- END: CSS Assets-->
     </head>
     <!-- END: Head -->
@@ -236,7 +236,17 @@ License: You must have a valid license purchased only from themeforest(the above
                                     <hr class="dropdown-divider border-theme-27 dark-border-dark-3">
                                 </li>
                                 <li>
-                                    <a href="index.html" class="dropdown-item text-white bg-theme-1-hover dark-bg-dark-3-hover"> <i data-feather="toggle-right" class="w-4 h-4 me-2"></i> Logout </a>
+                                    <a href="{{ route('logout') }}" class="dropdown-item text-white bg-theme-1-hover dark-bg-dark-3-hover"
+                                    onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();"> <i data-feather="toggle-right" class="w-4 h-4 me-2"></i>
+                              
+                                     {{ __('Logout') }}
+                                 </a>
+
+                                 <form id="logout-form" class="d-none" action="{{ route('logout') }}" method="POST" class="d-none">
+                                     @csrf
+                                 </form>
+                              
                                 </li>
                             </ul>
                         </div>

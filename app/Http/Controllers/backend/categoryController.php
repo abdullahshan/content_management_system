@@ -71,6 +71,7 @@ class categoryController extends Controller
 
     }
 
+
 private function genarateslug($title,$slug){
 
         if($slug == null){

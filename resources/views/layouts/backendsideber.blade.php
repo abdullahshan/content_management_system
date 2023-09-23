@@ -17,7 +17,7 @@
                     </li>
 
                     <li>
-                        <a href="javascript:;" class="side-menu {{ request()->routeIs('product.*') ? 'side-menu--active side-menu--open' : ' ' }}">
+                        <a href="javascript:;" class="side-menu {{ request()->routeIs('category.*') ? 'side-menu--active side-menu--open' : ' ' }}">
                             <div class="side-menu__icon"> <i data-feather="home"></i> </div>
                             <div class="side-menu__title">
                                 Category_Management 
@@ -28,7 +28,7 @@
                             <li>
                                 <a href="{{ route('category.add') }}" class="side-menu {{ request()->routeIs('category.*') ? 'side-menu--active side-menu--open' : ' ' }}">
                                     <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
-                                    <div class="side-menu__title">Add_Category</div>
+                                    <div class="side-menu__title">Add Category</div>
                                 </a>
                             </li>
                           
@@ -47,10 +47,15 @@
                             <li>
                                 <a href="{{ route('product.add') }}" class="side-menu side-menu--active side-menu--open">
                                     <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
-                                    <div class="side-menu__title">Add_product</div>
+                                    <div class="side-menu__title">Add Product</div>
                                 </a>
                             </li>
-                          
+                            <li>
+                                <a href="{{ route('product.view') }}" class="side-menu side-menu--active side-menu--open">
+                                    <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
+                                    <div class="side-menu__title">View Product</div>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                    

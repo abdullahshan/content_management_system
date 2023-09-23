@@ -23,7 +23,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::middleware(['auth'])->group(function () {
+
 Route::get('/deshboard', [backendController::class, 'index'])->name('deshboard');
+
 
 
 /*Category Management*/ 
@@ -41,5 +44,11 @@ Route::prefix('category')->name('category.')->group(function(){
 Route::prefix('product')->name('product.')->group(function(){
 
     Route::get('/add', [productController::class, 'add'])->name('add');
+    Route::post('/store', [productController::class, 'store'])->name('store');
+    Route::get('/view', [productController::class, 'view'])->name('view');
+    Route::get('/delete/{product:slug}', [productController::class, 'delete'])->name('delete');
+
+
 });
 
+});

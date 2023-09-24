@@ -12,9 +12,8 @@ class product extends Model
     use HasFactory, HasTags, SoftDeletes;
 
     protected $fillable = [
-        'title', 'content'
+        'title', 'user_id','content',
     ];
-
     public function categories(){
 
         return $this->belongsToMany(category::class);

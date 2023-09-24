@@ -23,18 +23,33 @@ class productController extends Controller
 /*Product Store*/
     public function store(Request $request){
 
-            $categories = $request->categories;
-            
+        $request->validate([
+            'title' => 'required|max:225|string',
+            'categories' => 'required',
+            'content' => 'required|max:1000',
+            'hastag' => 'required|max:50',
+        ], [
+            'title.required' => 'please enter your category title',
+            'categories.required' => 'please enter your categories',
+            'content.required' => 'please enter your category content',
+            'hastag.required' => 'please enter your category hastag',
+        ]
+        );
+
+         
             $data = new product();
             $data->title = $request->title;
             $data->slug = $this->genarateslug($request->title, $request->slug);
             $data->user_id = Auth::user()->id;
 
             if($request->hasFile('image')){
-                $data->image = $this->project_image($request);
+            $data->image = $this->project_image($request);
             }
+
             $data->content = $request->content;
             $data->save();
+
+            $categories = $request->categories;
             $data->categories()->attach($categories);
 
             if($request->hastag){
@@ -45,6 +60,7 @@ class productController extends Controller
                   $data->attachTag($mytag);
                 }
               }
+
               return redirect()->route('product.add');
     }
 
@@ -54,12 +70,11 @@ class productController extends Controller
 
         $id = Auth::user()->id;
 
-        if(Auth::user()->type = "user"){
-            $products = product::where('user_id','=', $id)->where('status','=',1)->get();
+        if(Auth::user()->type == "user"){
+            $products = product::where('user_id','=', $id)->where('status','=','1')->get();
         }else{
             $products = product::all();
         }
-
 
         return view('backend.product.view',compact('products'));
     }
@@ -75,20 +90,99 @@ class productController extends Controller
 }
 
 
+/*Product Edit*/ 
+    public function edit(product $product){
+
+        $id = $product->id;
+
+        $product = product::find($id);
+
+        $categories = category::all();
+
+        return view('backend.product.edit',compact('product','categories'));
+
+    }
+
+
+/*Update Product*/ 
+    public function update(Request $request){
+
+        $request->validate([
+            'title' => 'required|max:225|string',
+            'categories' => 'required',
+            'content' => 'required|max:1000',
+            'hastag' => 'required|max:50',
+        ], [
+            'title.required' => 'please enter your category title',
+            'categories.required' => 'please enter your categories',
+            'content.required' => 'please enter your category content',
+            'hastag.required' => 'please enter your category hastag',
+        ]
+        );
+
+         
+            $data = new product();
+            $data->title = $request->title;
+            $data->slug = $this->genarateslug($request->title, $request->slug);
+            $data->user_id = Auth::user()->id;
+
+            if($request->hasFile('image')){
+            $data->image = $this->project_image($request);
+            }
+
+            $data->content = $request->content;
+            $data->save();
+
+            $categories = $request->categories;
+            $data->categories()->attach($categories);
+
+            if($request->hastag){
+
+                $tag = str($request->hastag)->explode(',');
+                foreach ($tag as $tags){
+                  $mytag = Tag::findOrCreate(['name' => trim($tags)]);
+                  $data->attachTag($mytag);
+                }
+              }
+
+              return redirect()->route('product.add');
+    }
+
+
 //Upload image part//
      private function project_image($request){
 
         if($request->hasFile('image')){
             $project_image = $request->file('image')->extension();
     
-            $filename =  "product_image" . '.' . $project_image;
+            $filename = "product_image" . '.' . $project_image;
     
-         $image =   $request->image->storeAs('upload/',$filename, 'public');
+            $image = $request->image->storeAs('upload',$filename, 'public');
     
                 return $image;
          }
     }
 
+
+/*Product Stutas*/ 
+    public function status(product $product){
+
+        $slug = $product->slug;
+
+        $product = product::where('slug', '=', $slug)->first();
+
+        $status = $product->status;
+
+        if($status == '0'){
+            $product->status = '1';
+
+        }elseif($product->status == '1'){
+           $product->status = '0';
+        }
+
+        $product->save();
+        return redirect()->route('product.view');
+    }
 
 
 /*for slug*/

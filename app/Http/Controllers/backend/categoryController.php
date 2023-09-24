@@ -46,7 +46,8 @@ class categoryController extends Controller
 
        $data = $category;
        $data->delete();
-       return back();
+     
+       return redirect()->route('category.add');
 }
 
 

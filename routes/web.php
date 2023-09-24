@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/',[frontendController::class,'index'])->name('frontend');
+Route::get('/view',[frontendController::class,'view'])->name('frontend.view');
 
 Auth::routes();
 
@@ -46,7 +47,9 @@ Route::prefix('product')->name('product.')->group(function(){
     Route::post('/store', [productController::class, 'store'])->name('store');
     Route::get('/view', [productController::class, 'view'])->name('view');
     Route::get('/delete/{product:slug}', [productController::class, 'delete'])->name('delete');
-
+    Route::get('/edit/{product:slug}', [productController::class, 'edit'])->name('edit');
+    Route::post('/update/{product:slug}', [productController::class, 'update'])->name('update');
+    Route::get('/status/{product:slug}',[productController::class,'status'])->name('product.status');
 
 });
 

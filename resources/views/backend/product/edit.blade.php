@@ -1,16 +1,17 @@
+
 @extends('layouts.backendapp')
 
 @section('content')
     
 
-  <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ route('product.update', $product) }}" method="POST" enctype="multipart/form-data">
 
         @csrf
         @method('post')
 
             <div class="mb-3">
                 <label for="name" class="form-label">Title</label>
-                    <input type="text" name="title" class="form-control">
+                    <input type="text" value="{{ $product->title }}" name="title" class="form-control">
             @error('title')
             <span style="color:red;"> {{ $message }}</span>
                 @enderror
@@ -31,6 +32,7 @@
         <div style="margin: 10px 0px;">
             <label for="content" class="form-label">Write content</label>
             <textarea name="content" id="editor" class="form-control" style="max-height: 50px;">
+                {{ $product->content }}
             </textarea>
             @error('content')
             <span style="color:red;"> {{ $message }}</span>

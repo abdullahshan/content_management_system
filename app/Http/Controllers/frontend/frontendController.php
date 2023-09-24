@@ -10,7 +10,7 @@ class frontendController extends Controller
 {
         public function index(){
 
-            $products = product::where('status','=',0)->get();
+            $products = product::where('status','=', 1)->get();
 
             return view('frontend.index',compact('products'));
         }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\product;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -22,5 +23,8 @@ class AdminUserSeeder extends Seeder
             'type'  => 'admin',
             'password' => Hash::make('012345678'),
         ]);
+
     }
+
+
 }

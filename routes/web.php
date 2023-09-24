@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/',[frontendController::class,'index'])->name('frontend');
-Route::get('/view',[frontendController::class,'view'])->name('frontend.view');
+Route::get('/view{product:slug}',[frontendController::class,'view'])->name('frontend.view');
 
 Auth::routes();
 

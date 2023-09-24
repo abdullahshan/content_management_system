@@ -10,7 +10,9 @@
 
             <div class="card">
                
-                <div class="card-header"><h2>edit Category</h2></div>
+                <div class="card-header">
+                <h2 style="font-size: 20px;"><b>Edit Category</b></h2>
+                </div>
                 <div class="card-body">
                     <form action="{{ route('category.update', $category) }}" method="POST">
                         @csrf
@@ -28,7 +30,9 @@
             @else
 
             <div class="card">
-                <div class="card-header"><h2>Add Category</h2></div>
+                <div class="card-header">
+                <h2 style="font-size: 20px;"><b>Add Category</b></h2>
+                </div>
         
                 <div class="card-body">
                     <form action="{{ route('category.store') }}" method="POST">

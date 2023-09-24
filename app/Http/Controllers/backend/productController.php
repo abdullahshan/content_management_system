@@ -23,9 +23,8 @@ class productController extends Controller
 /*Product Store*/
     public function store(Request $request){
 
-
             $categories = $request->categories;
-
+            
             $data = new product();
             $data->title = $request->title;
             $data->slug = $this->genarateslug($request->title, $request->slug);

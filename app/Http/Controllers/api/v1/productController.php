@@ -33,6 +33,7 @@ class productController extends Controller
     public function product_store(Request $request){
 
         $categories = $request->categories;
+
         $data = new product();
         $data->title = $request->title;
         $data->slug = $this->genarateslug($request->title, $request->slug);
@@ -53,6 +54,13 @@ class productController extends Controller
               $data->attachTag($mytag);
             }
           }
+
+
+    return response()->json([
+            
+        'product' => $data,
+    ]);
+          
         
 }
 

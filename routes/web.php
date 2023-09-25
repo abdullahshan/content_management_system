@@ -49,7 +49,7 @@ Route::prefix('product')->name('product.')->group(function(){
     Route::get('/delete/{product:slug}', [productController::class, 'delete'])->name('delete');
     Route::get('/edit/{product:slug}', [productController::class, 'edit'])->name('edit');
     Route::post('/update/{product:slug}', [productController::class, 'update'])->name('update');
-    Route::get('/status/{product:slug}',[productController::class,'status'])->name('product.status');
+    Route::middleware('role:admsin')->get('/status/{product:slug}',[productController::class,'status'])->name('product.status');
 
 });
 

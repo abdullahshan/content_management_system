@@ -16,7 +16,9 @@
                             <th>Image</th>
                             <th>Content</th>
                             <th>Date</th>
+                            @can('role status')
                             <th>Status</th>
+                            @endcan
                             <th>Action</th>
                         </tr>
 
@@ -27,11 +29,11 @@
                                     <td><img style="max-height: 50px;" src="{{ asset('storage/'. $product->image) }}" alt=""></td>
                                     <td>{!! Str::substr($product->content, 0, 15) !!}<b>...</b></td>                                  
                                     <td>{{ $product->date == null ? Carbon\Carbon::parse($product->created_at)->diffForHumans() : Carbon\Carbon::parse($product->date)->diffForHumans() }}</td>
-                                    <td> @can('role status')
-
-                                        <a href="{{ route('product.product.status', $product) }}" class="{{ $product->status == '0' ? "btn btn-info" : "btn btn-primary" }}">{{ $product->status == '0' ? "Pending" : "Aprroved" }}</a>
-                                            
-                                        @endcan</td>
+                                        @can('role status')
+                                        <td>
+                                            <a href="{{ route('product.product.status', $product) }}" class="{{ $product->status == '0' ? "btn btn-info" : "btn btn-primary" }}">{{ $product->status == '0' ? "Pending" : "Aprroved" }}</a>
+                                        </td> 
+                                        @endcan
                                     <td>
                                     <a href="{{ route('product.edit', $product) }}" class="btn btn-info">view</a>
                                     <a href="{{ route('product.edit', $product) }}" class="btn btn-primary">edit</a>

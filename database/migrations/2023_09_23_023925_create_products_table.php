@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug');
             $table->integer('user_id');
             $table->string('image')->default('demo.png');
-            $table->string('content');
+            $table->longText('content');
             $table->integer('status')->default('0');
             $table->date('date')->nullable();
             $table->timestamps();

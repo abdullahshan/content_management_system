@@ -2,7 +2,11 @@
 @extends('layouts.backendapp')
 
 @section('content')
-    
+
+@push('customjs')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+@endpush
 
  <div class="card">
     <div class="card-header">
@@ -60,6 +64,12 @@
                         @error('hastag')
                         <span style="color:red;"> {{ $message }}</span>
                     @enderror
+
+                    <br>
+                    <div class="col-md-6">
+                        <label for="tag" class="form-label"><b>Date</b></label>
+                        <input type="datetime-local" name="date" placeholder="mm/dd/yyyy__" class="form-control" name="birth_day">
+                    </div>
             
                <br>
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -71,7 +81,7 @@
 
   @push('customjs')
 
-  <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+ <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 
 <script>
     ClassicEditor
@@ -80,6 +90,13 @@
             console.error( error );
         } );
 </script>
+
+  <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+      flatpickr("input[type=datetime-local]");
+  </script>
     
 @endpush
 

@@ -16,7 +16,7 @@ class productController extends Controller
 
 
         if($id){
-
+            
             $posts = product::where('id',$id)->get();
 
         }else{
@@ -43,6 +43,7 @@ class productController extends Controller
             $data->image = $this->project_image($request);
         }
         $data->content = $request->content;
+        $data->date = $request->date;
         $data->save();
         $data->categories()->attach($categories);
 

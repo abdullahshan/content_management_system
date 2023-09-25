@@ -9,7 +9,7 @@
     <div class="card-body">
       <h5 class="card-title">{{ $product->title }}</h5>
       <p class="card-text">{!! Str::substr($product->content, 0, 20) !!}<b>...</b></p>
-      <p class="card-text"><small class="text-body-secondary">{{ Carbon\Carbon::parse($product->created_at)->diffForHumans() }}</small></p>
+      <p class="card-text"><small class="text-body-secondary">{{ $product->date == null ? Carbon\Carbon::parse($product->created_at)->diffForHumans() : Carbon\Carbon::parse($product->date)->diffForHumans() }}</small></p>
       <a href="{{ route('frontend.view', $product) }}" class="btn btn-primary">View</a>
     </div>
   </div>

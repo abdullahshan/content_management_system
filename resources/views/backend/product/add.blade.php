@@ -2,6 +2,10 @@
 
 @section('content')
     
+@push('customjs')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+@endpush
 
 <div class="card">
     <div class="card-header">
@@ -59,11 +63,17 @@
         <span style="color:red;"> {{ $message }}</span>
     @enderror
 
-<br>
-<button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <br>
+    <div class="col-md-6">
+        <label for="tag" class="form-label"><b>Date</b></label>
+        <input type="datetime-local" name="date" placeholder="mm/dd/yyyy__" class="form-control" name="birth_day">
     </div>
-</div>
+
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+        </div>
+    </div>
 
 
 
@@ -77,6 +87,11 @@
         .catch( error => {
             console.error( error );
         } );
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    flatpickr("input[type=datetime-local]");
 </script>
     
 @endpush

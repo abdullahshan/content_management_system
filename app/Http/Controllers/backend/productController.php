@@ -4,10 +4,12 @@ namespace App\Http\Controllers\backend;
 
 use Spatie\Tags\Tag;
 use App\Models\product;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\category;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class productController extends Controller
 {
@@ -35,8 +37,7 @@ class productController extends Controller
             'hastag.required' => 'please enter your category hastag',
         ]
         );
-
-         
+        
             $data = new product();
             $data->title = $request->title;
             $data->slug = $this->genarateslug($request->title, $request->slug);
@@ -47,6 +48,7 @@ class productController extends Controller
             }
 
             $data->content = $request->content;
+            $data->date = $request->date;
             $data->save();
 
             $categories = $request->categories;
@@ -70,6 +72,10 @@ class productController extends Controller
 
         $id = Auth::user()->id;
 
+        //Auth::user()->type == "user"//
+
+        $roll = Role::where('name','admin')->get();
+        
         if(Auth::user()->type == "user"){
             $products = product::where('user_id','=', $id)->where('status','=','1')->paginate(5);
         }else{
@@ -124,10 +130,14 @@ class productController extends Controller
             $product->user_id = Auth::user()->id;
 
             if($request->hasFile('image')){
+                if(Storage::disk('public')->exists('upload/',$product->image)){
+                    unlink(public_path('storage/upload/') . $product->image);
+                   }
             $product->image = $this->project_image($request);
             }
 
             $product->content = $request->content;
+            $product->date = $request->date;
             $product->save();
 
             $categories = $request->categories;

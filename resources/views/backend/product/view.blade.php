@@ -15,8 +15,8 @@
                             <th>Title</th>
                             <th>Image</th>
                             <th>Content</th>
-                            <th>Status</th>
                             <th>Date</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
 
@@ -25,13 +25,17 @@
                                 <tr>
                                     <td>{{ $product->title }}</td>
                                     <td><img style="max-height: 50px;" src="{{ asset('storage/'. $product->image) }}" alt=""></td>
-                                    <td>{!! Str::substr($product->content, 0, 15) !!}<b>...</b></td>
-                                    <td><a  href="{{ route('product.product.status', $product) }}" class="{{ $product->status == '0' ? "btn btn-info" : "btn btn-primary" }}">{{ $product->status == '0' ? "Pending" : "Aprroved" }}</a></td>
-                                    <td>{{ Carbon\Carbon::parse($product->created_at)->diffForHumans() }}</td>
+                                    <td>{!! Str::substr($product->content, 0, 15) !!}<b>...</b></td>                                  
+                                    <td>{{ $product->date == null ? Carbon\Carbon::parse($product->created_at)->diffForHumans() : Carbon\Carbon::parse($product->date)->diffForHumans() }}</td>
+                                    <td> @can('role status')
+
+                                        <a href="{{ route('product.product.status', $product) }}" class="{{ $product->status == '0' ? "btn btn-info" : "btn btn-primary" }}">{{ $product->status == '0' ? "Pending" : "Aprroved" }}</a>
+                                            
+                                        @endcan</td>
                                     <td>
                                     <a href="{{ route('product.edit', $product) }}" class="btn btn-info">view</a>
                                     <a href="{{ route('product.edit', $product) }}" class="btn btn-primary">edit</a>
-                                    <a href="{{ route('product.delete', $product) }}" class="btn btn-danger">delete</a>
+                                    <a href="{{ route('product.delete', $product) }}" class="btn btn-danger">delete</a>                                
                                     </td>
                                 </tr>
                                 @forelse ($product->categories as $categorie)

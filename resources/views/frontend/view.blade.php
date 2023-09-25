@@ -14,9 +14,8 @@
             <div class="card-body">
               <h5 class="card-title">{{ $product->title }}</h5>
               <p class="card-text">{!! $product->content !!}</p>
-              <p class="card-text"><small class="text-body-secondary">{{ Carbon\Carbon::parse($product->created_at)->diffForHumans() }}</small></p>
-              <a href="{{ route('frontend', $product) }}" class="btn btn-primary">Back</a>
-           
+              <p class="card-text"><small class="text-body-secondary">{{ $product->date == null ? Carbon\Carbon::parse($product->created_at)->diffForHumans() : Carbon\Carbon::parse($product->date)->diffForHumans() }}</small></p>
+              <p><b>Published by : {{ $product->user->name }}</b></p>
             </div>
           </div>
         </div>

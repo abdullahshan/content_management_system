@@ -77,7 +77,7 @@ class productController extends Controller
         $roll = Role::where('name','admin')->get();
         
         if(Auth::user()->type == "user"){
-            $products = product::where('user_id','=', $id)->where('status','=','1')->paginate(5);
+            $products = product::where('user_id','=', $id)->where('status','=','1')->orderBy('id','DESC')->paginate(5);
         }else{
             $products = product::orderBy('id','DESC')->paginate(5);
         }

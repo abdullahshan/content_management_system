@@ -48,7 +48,7 @@
                                 </tr>
                           
                         @empty
-                            
+                            <!--Write something-->
                         @endforelse
                             @empty
                                 

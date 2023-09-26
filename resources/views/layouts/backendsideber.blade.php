@@ -15,7 +15,9 @@
                         </a>
                     
                     </li>
-
+                    
+                    @can('role status')
+                        
                     <li>
                         <a href="javascript:;" class="side-menu {{ request()->routeIs('category.*') ? 'side-menu--active side-menu--open' : ' ' }}">
                             <div class="side-menu__icon"> <i data-feather="home"></i> </div>
@@ -35,6 +37,8 @@
                         </ul>
                     </li>
                    
+                    @endcan
+
                     <li>
                         <a href="javascript:;" class="side-menu {{ request()->routeIs('product.*') ? 'side-menu--active side-menu--open' : ' ' }}">
                             <div class="side-menu__icon"> <i data-feather="home"></i> </div>

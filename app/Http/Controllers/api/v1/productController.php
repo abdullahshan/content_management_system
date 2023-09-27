@@ -7,6 +7,7 @@ use App\Models\product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class productController extends Controller
 {
@@ -30,7 +31,26 @@ class productController extends Controller
 
 
 /*Product Stor*/ 
-    public function product_store(Request $request){
+
+public function product_store(Request $request)
+{
+    try {
+        //Validated
+        $validateUser = Validator::make($request->all(), 
+        [
+            'title' => 'required',
+            'slug' => 'required',
+            'user_id' => 'required',
+            'content' => 'required',
+        ]);
+
+        if($validateUser->fails()){
+            return response()->json([
+                'status' => false,
+                'message' => 'validation error',
+                'errors' => $validateUser->errors()
+            ], 401);
+        }
 
         $categories = $request->categories;
 
@@ -57,27 +77,72 @@ class productController extends Controller
           }
 
 
-    return response()->json([
+        return response()->json([
+            'status' => true,
+            'message' => 'Product Created Successfully',
+            'product' => $data,
+            'token' => $data->createToken("API TOKEN")->plainTextToken
+        ], 201);
+
+    } catch (\Throwable $th) {
+        return response()->json([
+            'status' => false,
+            'message' => $th->getMessage()
+        ], 500);
+    }
+}
+
+
+
+
+//     public function product_store(Request $request){
+
+//         $categories = $request->categories;
+
+//         $data = new product();
+//         $data->title = $request->title;
+//         $data->slug = $this->genarateslug($request->title, $request->slug);
+//         $data->user_id = Auth::user()->id;
+
+//         if($request->hasFile('image')){
+//             $data->image = $this->project_image($request);
+//         }
+//         $data->content = $request->content;
+//         $data->date = $request->date;
+//         $data->save();
+//         $data->categories()->attach($categories);
+
+//         if($request->hastag){
+
+//             $tag = str($request->hastag)->explode(',');
+//             foreach ($tag as $tags){
+//               $mytag = Tag::findOrCreate(['name' => trim($tags)]);
+//               $data->attachTag($mytag);
+//             }
+//           }
+
+
+//     return response()->json([
             
-        'product' => $data,
-    ]);
+//         'product' => $data,
+//     ]);
           
         
-}
+// }
 
 
-private function project_image($request){
+// private function project_image($request){
 
-    if($request->hasFile('image')){
-        $project_image = $request->file('image')->extension();
+//     if($request->hasFile('image')){
+//         $project_image = $request->file('image')->extension();
 
-        $filename =  "product_image" . '.' . $project_image;
+//         $filename =  "product_image" . '.' . $project_image;
 
-     $image =   $request->image->storeAs('upload/',$filename, 'public');
+//      $image =   $request->image->storeAs('upload/',$filename, 'public');
 
-            return $image;
-     }
-}
+//             return $image;
+//      }
+// }
 
 
 

@@ -22,11 +22,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('registar/',[RegisterController::class,'registar'])->name('registar');
+Route::post('login/', [RegisterController::class, 'loginUser']);
 Route::get('logout/',[RegisterController::class,'logout'])->name('logout');
 
 
 
-Route::get('product/get/{id?}',[productController::class,'products'])->name('product.view');
+Route::get('product{id?}',[productController::class,'products'])->name('product.view');
 
 Route::middleware('auth:sanctum')->group( function () {
     

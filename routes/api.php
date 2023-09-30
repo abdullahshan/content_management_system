@@ -21,19 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::post('registar/',[RegisterController::class,'registar'])->name('registar');
-Route::post('login/', [RegisterController::class, 'loginUser']);
-Route::get('logout/',[RegisterController::class,'logout'])->name('logout');
-
-
-
-Route::get('product{id?}',[productController::class,'products'])->name('product.view');
-
-Route::middleware('auth:sanctum')->group( function () {
-    
-    Route::post('product/store',[productController::class,'product_store'])->name('product.store');
-});
-
 
 
 

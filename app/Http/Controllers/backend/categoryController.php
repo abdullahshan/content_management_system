@@ -24,8 +24,10 @@ class categoryController extends Controller
 
         $request->validate([
             'title' => 'required|max:225|string',
+            'image' => 'required',
         ], [
             'title.required' => 'please enter your category title',
+            'image.required' => 'please upload image',
         ]
         );
 
@@ -33,7 +35,12 @@ class categoryController extends Controller
 
     $data->title = $request->title;
     $data->slug  = $this->genarateslug($request->title, $request->slug);
+    
+    if($request->hasFile('image')){
+        $data->image = $this->project_image($request);
+        }
 
+    
     $data->save();
 
     return back();
@@ -90,4 +97,22 @@ private function genarateslug($title,$slug){
             return $slug;
         }
 }
+
+
+
+//Upload image part//
+private function project_image($request){
+
+    if($request->hasFile('image')){
+        $project_image = $request->file('image')->extension();
+
+        $filename = uniqid()."product_image" . '.' . $project_image;
+
+        $image = $request->image->storeAs('upload/',$filename, 'public');
+
+            return $image;
+     }
+}
+
+
  }

@@ -14,14 +14,21 @@
                 <h2 style="font-size: 20px;"><b>Edit Category</b></h2>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('category.update', $category) }}" method="POST">
+                    <form action="{{ route('category.update', $category) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('put')
+
                         <input type="text" value="{{ $category->title }}" name="title" class="form-control mt-2">
                         @error('title')
                            <span style="color:red;"> {{ $message }}</span>
                         @enderror
-                        <input type="text" value="{{ $category->slug }}" name="slug" class="form-control mt-2 mb-2" >
+
+                        <input type="text" value="{{ $category->title }}" name="title" class="form-control mt-2">
+                        @error('title')
+                           <span style="color:red;"> {{ $message }}</span>
+                        @enderror
+
+                        <input type="file" class="form-control mt-2 mb-2" name="image" >
                         <button name="submit" class="btn btn-primary">add-category</button>
                     </form>
                 </div>
@@ -31,18 +38,28 @@
 
             <div class="card">
                 <div class="card-header">
-                <h2 style="font-size: 20px;"><b>Add Category</b></h2>
+                <h2 style="font-size: 20px;"><b>Add Block</b></h2>
                 </div>
         
                 <div class="card-body">
-                    <form action="{{ route('category.store') }}" method="POST">
+                    <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('post')
+
+                        <div class="mb-3">
+                            <label for="file" class="form-label"><b>Image</b></label>
+                            <input type="file" name="image" class="form-control">
+                        </div>
+                        @error('image')
+                        <span style="color:red;"> {{ $message }}</span>
+                    @enderror
+
                        <label for="">Title</label>
                         <input type="text"  name="title" class="form-control mt-2">
                         @error('title')
                         <span style="color:red;"> {{ $message }}</span>
                      @enderror
+
                         <input type="text"  name="slug" placeholder="slug" class="form-control mt-2 mb-2" >
                         <button name="submit" class="btn btn-primary">add-category</button>
                     </form>

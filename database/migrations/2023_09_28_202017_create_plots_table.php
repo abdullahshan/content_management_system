@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('plots', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('road_id')->constrained('roads')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('category_id');
+            $table->foreignId('road_id');
             $table->integer('plot_num');
             $table->integer('plot_size');
             $table->string('plot_type');
+            $table->string('facing');
+            $table->integer('per_plot_price');
             $table->integer('plot_price');
             $table->integer('status')->default('1');
             $table>

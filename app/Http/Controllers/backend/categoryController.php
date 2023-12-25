@@ -6,6 +6,9 @@ use App\Models\User;
 use App\Models\category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\plot;
+use App\Models\road;
+use PhpParser\Node\Expr\FuncCall;
 
 class categoryController extends Controller
 {
@@ -19,11 +22,33 @@ class categoryController extends Controller
     }
 
 
+/*category status*/ 
+
+public function status(category $category){
+
+        $data = $category;
+
+        if ($data->status == '1') {
+
+            $data->status = '0';
+
+        } elseif($data->status == '0'){
+            
+            $data->status = '1';
+        }
+
+        $data->save();
+
+        return back();
+        
+}   
+
+
 /*Category Store*/
     public function store(Request $request){
 
         $request->validate([
-            'title' => 'required|max:225|string',
+            'title' => 'required|max:225|unique:categories',
             'image' => 'required',
         ], [
             'title.required' => 'please enter your category title',
@@ -43,7 +68,7 @@ class categoryController extends Controller
     
     $data->save();
 
-    return back();
+    return redirect()->route('category.add')->with('message','Block Successfully Aded!');
 
 }
 
@@ -59,9 +84,10 @@ class categoryController extends Controller
 
 
 /*Category Edit*/
-    public function edit(category $category){
+    public function edit(Request $request,category $category){
 
         $category = $category;
+
         $data = category::all();
 
         return view('backend.category.add',compact('category','data'));
@@ -77,7 +103,64 @@ class categoryController extends Controller
 
         return redirect()->route('category.add')->with("success","update successfully done!");
 
+
     }
+
+/*Block road view*/ 
+public function get_road($id){
+
+
+        $roads = road::where('category_id',$id)->get();
+        return view('backend.category.view_road',compact('roads'));
+}
+
+public function delete_plot($id){
+
+    $data = plot::find($id);
+
+    $data->delete();
+    return back();
+}
+
+
+public function delete_sell_plot($id){
+
+    $data = plot::find($id);
+
+    $data->delete();
+    return back();
+}
+
+
+public function delete_road($id){
+
+
+    $data = road::find($id);
+
+    $data->delete();
+
+    return back();
+}
+
+/*get plot_with raod*/ 
+public function get_plot($id){
+
+        $road = road::with('category')->first();
+
+       $plots = plot::where('category_id',$road->category->id)->where('road_id',$id)->where('status',0)->get();
+    
+       return view('backend.category.plot_view', compact('plots'),['id'=>$id]);
+    }
+/*Avilable plot*/ 
+public function avilabele_plot($id){
+
+    $road = road::with('category')->first();
+
+    $avilable_plots = plot::where('category_id',$road->category->id)->where('road_id',$id)->where('status',1)->get();
+ 
+
+    return view('backend.category.plot_view',compact('avilable_plots'),['id'=>$id]);
+}
 
 
 private function genarateslug($title,$slug){

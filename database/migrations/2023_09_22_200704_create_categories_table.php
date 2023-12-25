@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->string('image')->default('demo.png');
+            $table->string('project_name')->default('Dakhinacity');
+            $table->integer('status')->default('0');
             $table->timestamps();
         });
     }

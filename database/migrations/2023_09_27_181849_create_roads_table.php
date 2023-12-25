@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('roads', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('category_id');
             $table->integer('road_num');
             $table->timestamps();
         });

@@ -13,14 +13,18 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('block');
-            $table->string('road');
+            $table->foreignId('category_id');
+            $table->foreignId('road_id');
             $table->integer('plot_num');
             $table->string('name')->nullable();
             $table->integer('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('address')->nullable();
             $table->longText('message')->nullable();
+            $table->integer('status')->nullable();
+            $table->string('type')->nullable();
+            $table->integer('price')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

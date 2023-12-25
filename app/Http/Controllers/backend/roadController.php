@@ -32,7 +32,42 @@ class roadController extends Controller
             $data->category_id = $request->category_id;
             $data->road_num = $request->road_num;
             $data->save();
-            return back();
+
+
+        return redirect()->route('road.add')->with('message','Road Successfully Aded!');
           
     }
+    
+    
+    public function edit_road($id){
+
+        $data  = road::find($id);
+
+        $categories = category::all();
+
+        return view('backend.road.add',compact('data','categories'),['id'=>$id]);
+
+
+    }
+
+    
+
+    
+
+ public function update_road(Request $request, $id){
+
+
+    $data = road::find($id);
+    
+    $road_id = $request->road_id;
+
+    $data->category_id = $request->category_id;
+    $data->road_num = $request->road_num;
+    $data->save();
+
+
+return redirect()->route('category.get_road',['id'=>$road_id])->with('message','Road Successfully Updated!');
+  
+}
+
 }

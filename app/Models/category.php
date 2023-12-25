@@ -13,4 +13,9 @@ class category extends Model
 
         return $this->hasMany(road::class);
     }
+
+    public function books(){
+
+        return $this->hasMany(book::class);
+    }
 }

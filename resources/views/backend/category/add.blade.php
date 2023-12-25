@@ -1,7 +1,8 @@
 @extends('layouts.backendapp')
 
-
+  
 @section('content')
+
 
     <div class="row">
         <div class="col-lg-4">
@@ -23,7 +24,7 @@
                            <span style="color:red;"> {{ $message }}</span>
                         @enderror
 
-                        <input type="text" value="{{ $category->title }}" name="title" class="form-control mt-2">
+                        <input type="text" value="{{ $category->slug }}" name="slug" class="form-control mt-2">
                         @error('title')
                            <span style="color:red;"> {{ $message }}</span>
                         @enderror
@@ -37,6 +38,9 @@
             @else
 
             <div class="card">
+                @if (Session::has('message'))
+                <span class="d-flex justify-content-center" style="font-size: 20px;color:black;background-color:rgb(190, 250, 190);">{{ Session::get('message') }}</span>
+                @endif
                 <div class="card-header">
                 <h2 style="font-size: 20px;"><b>Add Block</b></h2>
                 </div>
@@ -46,22 +50,24 @@
                         @csrf
                         @method('post')
 
-                        <div class="mb-3">
-                            <label for="file" class="form-label"><b>Image</b></label>
-                            <input type="file" name="image" class="form-control">
-                        </div>
-                        @error('image')
-                        <span style="color:red;"> {{ $message }}</span>
-                    @enderror
-
                        <label for="">Title</label>
                         <input type="text"  name="title" class="form-control mt-2">
                         @error('title')
                         <span style="color:red;"> {{ $message }}</span>
                      @enderror
 
-                        <input type="text"  name="slug" placeholder="slug" class="form-control mt-2 mb-2" >
-                        <button name="submit" class="btn btn-primary">add-category</button>
+
+                     <div class="mb-3">
+                        <label for="file" class="form-label"><b>Image</b></label>
+                        <input type="file" name="image" class="form-control">
+                    </div>
+                 
+                    @error('image')
+                    <span style="color:red;"> {{ $message }}</span>
+                @enderror
+                <br>
+
+                        <button name="submit" class="btn btn-primary mt-2">Add Block</button>
                     </form>
                 </div>
              
@@ -75,7 +81,8 @@
                     <tr>
                         <th>Id</th>
                         <th>Category title</th>
-                        <th>Slug</th>
+                        <th>Image</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
 
@@ -83,23 +90,41 @@
                     <tr>
                         <td>{{ ++$key }}</td>
                         <td>{{ $sdata->title }}</td>
-                        <td>{{ $sdata->slug }}</td>
                         <td>
+                            <img style="max-height: 100px;" src="{{asset('storage/'.$sdata->image)}}" alt="image">
+                        </td>
+
+                            @if ($sdata->status == 1)
+                            <td>
+                               <span class="btn btn-success btn-sm"> {{ "active" }}</span>
+                             </td>
+                            @else
+                               <td>
+                               <span class="btn btn-danger btn-sm"> {{ "De-active" }}</span>
+                            </td>
+                            @endif
+                            
+                            <td>
+             
                             <div class="btn-group">
 
                                 <a style="border-radius: 5px;" href="{{ route('category.edit', $sdata) }}" class="btn btn-primary btn-sm">edit</a>
                               
-                              
-                                <a style="border-radius: 5px;" href="#" class="btn btn-danger btn-sm deletebtn">delete</a>
-                              
-                              
 
-                             <form action="{{ route('category.delete', $sdata) }}" method="POST">
-                                @csrf
-                                @method('delete')
-                            
-                            </form>
+                                <a style="border-radius: 5px;margin-left:2px;" href="{{ route('category.get_road', $sdata->id) }}" class="btn btn-primary btn-sm">View</a>
+
+                              
+                                <a style="border-radius: 5px;margin-left:2px;" href="{{ route('category.status',$sdata)}}">
+
+                                    @if ($sdata->status == 1)
+                                       <span class="{{ $sdata->status == 1? "btn btn-danger":" " }}"> {{ "De-active" }}</span>
+                                    @else
+                                   <span class="{{ $sdata->status == 0? "btn btn-success":" " }}"> {{ "Active" }}</span>
+                                    @endif
+
+                                </a>
                 
+                          
                             </div>
                         </td>
                     </tr>
@@ -116,32 +141,7 @@
 
 
 
-@push('customjs')
 
-    <script>
-            
-        $('.deletebtn').click(function(){
-
-            Swal.fire({
-  title: 'Are you sure?',
-  text: "You won't be able to revert this!",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes, delete it!'
-}).then((result) => {
-  if (result.isConfirmed) {
-    
-        $(this).next('form').submit();
-
-  }
-})
-        });
-
-    </script>
-    
-@endpush
 
 
 

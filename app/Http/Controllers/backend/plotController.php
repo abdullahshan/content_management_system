@@ -7,6 +7,9 @@ use App\Models\category;
 use App\Models\plot;
 use App\Models\road;
 use Illuminate\Http\Request;
+use Symfony\Contracts\Service\Attribute\Required;
+
+use function Symfony\Component\String\b;
 
 class plotController extends Controller
 {
@@ -19,17 +22,20 @@ class plotController extends Controller
     }
 
 
+    
 
     /*Get plot for frontend with ajax*/
-    public function getroad(Request $request)
+    public function get_plot(Request $request)
     {
 
         $plot_id = $request->data;
 
-        $plots = plot::where('road_id', $plot_id)->get();
+        $block_id = road::with('category')->where('id',$plot_id)->first();
+
+        $plots = plot::where('category_id',$block_id->category->id)->where('road_id', $plot_id)->where('status','=',1)->get();
 
 
-        $html = '<option value="">Select </option>';
+        $html = '<option value="">Select</option>';
         foreach($plots as $road){
 
             $html.='<option value="'.$road->plot_num.'">'.$road->plot_num.'</option>';
@@ -47,17 +53,24 @@ class plotController extends Controller
         
         $plot_id = $request->data;
 
-        $plots = plot::where('road_id', $plot_id)->get();
+        $block_id = road::with('category')->where('id',$plot_id)->first();
 
+        $plots = plot::where('category_id',$block_id->category->id)->where('road_id',$plot_id)->where('status','=',1)->get();
+
+       $count = count($plots);
 
         $html = '<option value=""></option>';
+
         foreach($plots as $road){
 
-            $html.='<option value="'.$road->plot_num.'">'.$road->plot_num.','.'</option>';
+            $html.='<option value="'.$road->id.'">'.$road->plot_num.','.' '.'</option>';
         }
 
-        echo $html;
+        echo "<b>Available Plots :</b> ($count) = " .$html;
+      
     }
+
+     
 
 
      /*Get plot for frontend with ajax*/
@@ -103,10 +116,18 @@ class plotController extends Controller
     /*Plot Information store*/
     public function store(Request $request)
     {
+        
+        $request->validate([
+            
+            'block' => 'required',
+            'road' => 'required',
+            'plot_num' => 'required',
+            'plot_size' => 'required',
+            'facing' => 'required',
+            'plot_type' => 'required',
+            'plot_price' => 'required',
 
-        $request->validate([]);
-
-
+                ]);
 
         $plot = new plot();
 
@@ -116,10 +137,67 @@ class plotController extends Controller
         $plot->plot_num = $request->plot_num;
         $plot->plot_size = $request->plot_size;
         $plot->plot_type = $request->plot_type;
+        $plot->per_plot_price = $request->plot_price;
+        $plot->facing = $request->facing;
         $plot->plot_price = $request->plot_price * $request->plot_size;
 
         $plot->save();
 
-        return back();
+        return redirect()->route('plot.add')->with('message','Plot Successfully Aded!');
     }
+
+
+
+
+    public function edit_plot(Request $request,$id)
+    {
+
+        $getblocks = category::all();
+
+        $data = plot::find($id);
+
+        $road_id = $request->road_id;
+
+        return view('backend.plot.add', compact('getblocks','data','road_id'));
+    }
+
+
+
+     /*Plot Information store*/
+     public function update_plot(Request $request, $id)
+     {
+         
+         $request->validate([
+             
+             'block' => 'required',
+             'road' => 'required',
+             'plot_num' => 'required',
+             'plot_size' => 'required',
+             'facing' => 'required',
+             'plot_type' => 'required',
+             'plot_price' => 'required',
+ 
+                 ]);
+
+        $road_id = $request->road_id;
+ 
+         $plot = plot::find($id);
+
+ 
+         $plot->category_id = $request->block;
+         $plot->road_id = $request->road;
+         $plot->plot_num = $request->plot_num;
+         $plot->plot_size = $request->plot_size;
+         $plot->plot_type = $request->plot_type;
+         $plot->per_plot_price = $request->plot_price;
+         $plot->facing = $request->facing;
+         $plot->plot_price = $request->plot_price * $request->plot_size;
+ 
+         $plot->save();
+ 
+         return redirect()->route('category.avilabele_plot',['id'=>$road_id])->with('message','Plot Successfully Updated!');
+     }
+
+
+     
 }
